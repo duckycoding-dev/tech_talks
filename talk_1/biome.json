@@ -6,15 +6,8 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false,
-    "includes": [
-      "**",
-      "!node_modules",
-      "!.astro",
-      "!dist",
-      "!build",
-      "!.vscode"
-    ]
+    "ignoreUnknown": true,
+    "includes": ["**", "!node_modules", "!dist", "!build", "!.vscode"]
   },
   "formatter": {
     "enabled": true,
@@ -101,11 +94,7 @@
         "noForIn": "error",
         "useConsistentArrowReturn": "warn",
         "noShadow": "warn",
-        "noUnnecessaryConditions": "warn",
-        "useExplicitType": {
-          "level": "warn",
-          "options": {}
-        }
+        "noUnnecessaryConditions": "warn"
       },
       "security": {
         "noBlankTarget": {
@@ -158,7 +147,7 @@
         "useExportType": "error",
         "useFilenamingConvention": {
           "options": {
-            "filenameCases": ["kebab-case"]
+            "filenameCases": ["camelCase"]
           },
           "level": "warn"
         },
@@ -193,30 +182,15 @@
     "actions": {
       "source": {
         "organizeImports": {
-          "level": "on",
+          "level": "off",
           "options": {
             "groups": [
-              [":NODE:", ":BUN:"],
-              ":BLANK_LINE:",
-              [
-                { "type": true, "source": "astro" },
-                { "type": true, "source": "astro/**" },
-                "astro",
-                "astro/**",
-                { "type": true, "source": "zod" },
-                "zod"
-              ],
-              ":BLANK_LINE:",
-              { "type": true },
-              ":BLANK_LINE:",
+              ["astro:*", "*astro-*", "astro*/*"],
+              ["zod"],
               [":ALIAS:", ":PATH:"]
             ],
             "identifierOrder": "natural"
           }
-        },
-        "useSortedAttributes": {
-          "options": { "sortOrder": "natural" },
-          "level": "on"
         }
       }
     }
@@ -232,6 +206,7 @@
   },
   "javascript": {
     "formatter": {
+      "enabled": true,
       "trailingCommas": "all",
       "semicolons": "always",
       "quoteStyle": "single",
@@ -250,14 +225,15 @@
   "html": {
     "experimentalFullSupportEnabled": true,
     "formatter": {
+      "enabled": true,
       "selfCloseVoidElements": "always",
       "bracketSameLine": false,
       "attributePosition": "multiline",
-      "indentScriptAndStyle": true,
       "indentStyle": "space",
       "indentWidth": 2,
       "lineWidth": 80,
-      "whitespaceSensitivity": "strict"
+      "whitespaceSensitivity": "strict",
+      "indentScriptAndStyle": true
     }
   },
   "css": {
@@ -271,7 +247,40 @@
   },
   "overrides": [
     {
-      "includes": ["**/*.svelte", "**/*.astro", "**/*.vue"]
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          },
+          "style": {
+            "useConst": "off",
+            "useImportType": "off",
+            "useFilenamingConvention": {
+              "level": "error",
+              "options": {
+                "filenameCases": ["PascalCase"]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/pages/**/*.astro"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": {
+              "level": "error",
+              "options": {
+                "filenameCases": ["kebab-case"]
+              }
+            }
+          }
+        }
+      }
     }
   ]
 }

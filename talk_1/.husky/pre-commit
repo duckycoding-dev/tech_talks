@@ -1,0 +1,5 @@
+echo "running husky pre-commit hook"
+
+npx lint-staged
+
+exit 1

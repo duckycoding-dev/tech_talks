@@ -1,32 +1,65 @@
 ---
+
+
+
 import { ClientRouter } from 'astro:transitions';
-import Navbar from '../components/shared/Navbar.astro';
+import Navbar from '@/components/shared/Navbar.astro';
+
 import '@/styles/global.css';
 
 interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
+const a = 'ciao';
+const x = {
+  test: '123',
+  ciao: 234,
+  ciao2: 234,
+  ciao3: 234,
+  cia4o: 234,
+  ciao5: 234,
+  ciao6: 234,
+  ciao7: 234,
+  ciao8: 234,
+  ciao9: 234,
+  ciao21: 234,
+  ciao22: 234,
+  ciao23: 234,
+};
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		<ClientRouter />
-	</head>
-	<body>
-		<Navbar />
-		<main>
-			<slot />
-		</main>
-	</body>
+<html
+  lang="en"
+  {...Astro.props}
+  {...Astro.props}
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <meta
+      name="generator"
+      content={Astro.generator}
+    />
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <Navbar />
+    <main>
+      <slot />
+    </main>
+  </body>
 </html>
 
+<script>
+  console.log('ciao');
+</script>
 
 <style is:global>
   body {
@@ -99,5 +132,4 @@ const { title } = Astro.props;
       transform: translateY(0);
     }
   }
-
 </style>

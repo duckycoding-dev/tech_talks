@@ -1,6 +1,7 @@
 {
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": null,
   "editor.codeActionsOnSave": {
-    "source.action.useSortedAttributes.biome": "explicit",
-    "source.fixAll.biome": "explicit",
+    "source.fixAll.biome": "explicit"
   }
 }

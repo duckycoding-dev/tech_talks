@@ -5,13 +5,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": "./",
+    "noUnusedLocals": false, // Disable this since it is also disabled in Biome config for now, since it's not supported well enough yet in Astro
     "paths": {
       "@/*": ["src/*"]
     },
     "plugins": [
       {
         "name": "@astrojs/ts-plugin"
-      },
-    ],
+      }
+    ]
   }
 }
