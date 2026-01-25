@@ -2,13 +2,15 @@
 import RootLayout from '../layouts/RootLayout.astro';
 ---
 
-<div>
-  <h1>Welcome Home 👋</h1>
-  <p
-    >Experience smooth page transitions with Astro's native view transitions
-    API.</p
-  >
-  <p style="margin-top: 2rem; opacity: 0.85;"
-    >The navbar stays fixed while the content transitions smoothly.</p
-  >
-</div>
+<RootLayout title="Home">
+  <div>
+    <h1>Welcome Home 👋</h1>
+    <p
+      >Experience smooth page transitions with Astro's native view transitions
+      API.</p
+    >
+    <p style="margin-top: 2rem; opacity: 0.85;"
+      >The navbar stays fixed while the content transitions smoothly.</p
+    >
+  </div>
+</RootLayout>

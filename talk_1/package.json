@@ -10,7 +10,7 @@
     "format": "biome format . --write",
     "lint": "biome lint",
     "lint:fix": "biome lint . --write",
-    "prepare": "husky"
+    "prepare": "cd .. && husky ./talk_1/.husky"
   },
   "dependencies": {
     "astro": "^6.0.0-beta.3"
