@@ -1,0 +1,277 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.12/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.astro",
+      "!dist",
+      "!build",
+      "!.vscode"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "attributePosition": "auto",
+    "bracketSameLine": false,
+    "bracketSpacing": true,
+    "formatWithErrors": false,
+    "lineWidth": 80,
+    "expand": "auto",
+    "lineEnding": "auto"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "noForEach": "warn",
+        "noUselessFragments": {
+          "level": "warn",
+          "fix": "safe",
+          "options": {}
+        }
+      },
+      "correctness": {
+        "noUndeclaredVariables": "error",
+        "noChildrenProp": "warn",
+        "noConstAssign": "error",
+        "noEmptyPattern": "error",
+        "noInvalidUseBeforeDeclaration": "error",
+        "noMissingVarFunction": "error",
+        "noReactPropAssignments": "error",
+        "noUnreachable": "error",
+        "noUnsafeOptionalChaining": "error",
+        "noUnusedFunctionParameters": {
+          "fix": "safe",
+          "level": "warn",
+          "options": { "ignoreRestSiblings": true }
+        },
+        "noUnusedImports": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {}
+        },
+        "noUnusedLabels": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {}
+        },
+        "noUnusedVariables": {
+          "fix": "safe",
+          "level": "warn",
+          "options": { "ignoreRestSiblings": true }
+        },
+        "noVoidTypeReturn": "error",
+        "useExhaustiveDependencies": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {
+            "reportMissingDependenciesArray": true,
+            "reportUnnecessaryDependencies": true
+          }
+        },
+        "useHookAtTopLevel": "error",
+        "useIsNan": "error",
+        "useJsonImportAttributes": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {}
+        },
+        "useJsxKeyInIterable": "error"
+      },
+      "performance": {
+        "noBarrelFile": "error",
+        "noImgElement": "error"
+      },
+      "nursery": {
+        "noDuplicateAttributes": "error",
+        "noDuplicateDependencies": "error",
+        "noDuplicatedSpreadProps": "error",
+        "noDuplicateEnumValueNames": "error",
+        "noEqualsToNull": "warn",
+        "noForIn": "error",
+        "useConsistentArrowReturn": "warn",
+        "noShadow": "warn",
+        "noUnnecessaryConditions": "warn",
+        "useExplicitType": {
+          "level": "warn",
+          "options": {}
+        }
+      },
+      "security": {
+        "noBlankTarget": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {}
+        },
+        "noDangerouslySetInnerHtml": "error",
+        "noDangerouslySetInnerHtmlWithChildren": "error"
+      },
+      "a11y": {
+        "useSemanticElements": "off",
+        "recommended": true
+      },
+      "style": {
+        "useConsistentTypeDefinitions": {
+          "level": "warn",
+          "options": {
+            "style": "interface"
+          }
+        },
+        "useReactFunctionComponents": {
+          "level": "warn",
+          "options": {}
+        },
+        "useImportType": {
+          "level": "error",
+          "fix": "safe",
+          "options": {
+            "style": "auto"
+          }
+        },
+        "noEnum": "error",
+        "noNonNullAssertion": "error",
+        "noParameterAssign": "error",
+        "noSubstr": "error",
+        "useNodejsImportProtocol": "error",
+        "useBlockStatements": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {}
+        },
+        "useConsistentCurlyBraces": {
+          "level": "error",
+          "fix": "safe",
+          "options": {}
+        },
+        "useConst": "warn",
+        "useDefaultParameterLast": "error",
+        "useExportType": "error",
+        "useFilenamingConvention": {
+          "options": {
+            "filenameCases": ["kebab-case"]
+          },
+          "level": "warn"
+        },
+        "useForOf": "warn",
+        "useTemplate": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {}
+        },
+        "noUnusedTemplateLiteral": "warn"
+      },
+      "suspicious": {
+        "noUnknownAtRules": "off",
+        "noDuplicateElseIf": "warn",
+        "useDefaultSwitchClauseLast": "warn",
+        "noDuplicateJsxProps": "error",
+        "noDuplicateParameters": "error",
+        "noDuplicateProperties": "error",
+        "noDuplicateObjectKeys": "error",
+        "noEvolvingTypes": "error",
+        "noExtraNonNullAssertion": "error",
+        "noFallthroughSwitchClause": "error",
+        "noImplicitAnyLet": "error",
+        "noRedeclare": "error",
+        "noUnassignedVariables": "warn",
+        "useAwait": "warn",
+        "useIsArray": "warn"
+      }
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              [":NODE:", ":BUN:"],
+              ":BLANK_LINE:",
+              [
+                { "type": true, "source": "astro" },
+                { "type": true, "source": "astro/**" },
+                "astro",
+                "astro/**",
+                { "type": true, "source": "zod" },
+                "zod"
+              ],
+              ":BLANK_LINE:",
+              { "type": true },
+              ":BLANK_LINE:",
+              [":ALIAS:", ":PATH:"]
+            ],
+            "identifierOrder": "natural"
+          }
+        },
+        "useSortedAttributes": {
+          "options": { "sortOrder": "natural" },
+          "level": "on"
+        }
+      }
+    }
+  },
+  "json": {
+    "formatter": {
+      "trailingCommas": "none",
+      "bracketSpacing": true,
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 80
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "quoteStyle": "single",
+      "bracketSpacing": true,
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 80,
+      "arrowParentheses": "always",
+      "attributePosition": "multiline",
+      "bracketSameLine": false,
+      "jsxQuoteStyle": "single",
+      "operatorLinebreak": "after",
+      "quoteProperties": "asNeeded"
+    }
+  },
+  "html": {
+    "experimentalFullSupportEnabled": true,
+    "formatter": {
+      "selfCloseVoidElements": "always",
+      "bracketSameLine": false,
+      "attributePosition": "multiline",
+      "indentScriptAndStyle": true,
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 80,
+      "whitespaceSensitivity": "strict"
+    }
+  },
+  "css": {
+    "formatter": {
+      "quoteStyle": "single",
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 80,
+      "lineEnding": "auto"
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.svelte", "**/*.astro", "**/*.vue"]
+    }
+  ]
+}
