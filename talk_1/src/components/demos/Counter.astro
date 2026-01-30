@@ -1,0 +1,95 @@
+---
+---
+
+<div class="card astro-card">
+  <div class="header">
+    <img
+      src="https://astro.build/assets/press/astro-icon-light.svg"
+      alt="Astro"
+      width="30"
+    />
+    <h3>Astro Island</h3>
+  </div>
+  <div
+    class="display"
+    id="count"
+    >0</div
+  >
+  <div class="controls">
+    <button
+      type="button"
+      id="decrease"
+      >-</button
+    >
+    <button
+      type="button"
+      id="increase"
+      >+</button
+    >
+  </div>
+</div>
+
+<style>
+  .card {
+    padding: 1.5rem;
+    background: #1a1a1a;
+    border: 2px solid #ff4e4e;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    margin: 0;
+    color: #ff4e4e;
+  }
+
+  .display {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+    margin: 1rem 0;
+  }
+
+  .controls {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  button {
+    background: #ff4e4e;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  // let count = 0;
+  // const countEl = document.getElementById('count');
+  // const decreaseBtn = document.getElementById('decrease');
+  // const increaseBtn = document.getElementById('increase');
+
+  // if (countEl && decreaseBtn && increaseBtn) {
+  //   decreaseBtn.addEventListener('click', () => {
+  //     count--;
+  //     countEl.textContent = String(count);
+  //   });
+
+  //   increaseBtn.addEventListener('click', () => {
+  //     count++;
+  //     countEl.textContent = String(count);
+  //   });
+  // }
+</script>

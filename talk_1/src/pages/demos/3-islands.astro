@@ -1,40 +1,162 @@
 ---
 import RootLayout from '@/layouts/RootLayout.astro';
-import MissionControl from '@/components/demos/react-components/Counter';
+import ReactCounter from '@/components/demos/react-components/Counter';
+import VueCounter from '@/components/demos/vue-components/Counter.vue';
+import SvelteCounter from '@/components/demos/svelte-components/Counter.svelte';
+import SolidCounter from '@/components/demos/solid-components/Counter';
+import Counter from '../../components/demos/Counter.astro';
 ---
 
-<RootLayout title="3. Islands">
-  <h1>Islands Architecture</h1>
+<RootLayout title="3. Islands Architecture">
+  <h1>Astro Islands</h1>
+  <p class="subtitle"
+    >Multi-Framework, Hydration Strategies & Zero JS by Default</p
+  >
 
-  <section>
-    <h2>1. Static (Server Only)</h2>
-    <p>This component is rendered as HTML. No JS sent. Buttons do nothing.</p>
-    <!-- By default, it's just HTML -->
-    <MissionControl />
-  </section>
+  <div class="grid">
+    <!-- 1. Static (Server Only) -->
+    <div class="card">
+      <div class="badge server">Server Only</div>
+      <h2>Static HTML</h2>
+      <p>Rendered on the server. No JS sent to client.</p>
+      <div class="demo-wrapper">
+        <Counter />
+      </div>
+    </div>
 
-  <section>
-    <h2>2. Interactive (Hydrated)</h2>
-    <p>This one hydrates when visible. Try clicking.</p>
-    <!-- client:visible directive tells Astro to load JS -->
-    <MissionControl client:visible />
-  </section>
+    <!-- 2. Client:load (Hydrate Immediately) -->
+    <div class="card">
+      <div class="badge client">client:load</div>
+      <h2>Immediate Hydration</h2>
+      <p>Hydrates as soon as the JavaScript bundle loads.</p>
+      <div class="demo-wrapper">
+        <VueCounter client:load />
+      </div>
+    </div>
 
-  <section class="info">
+    <!-- 3. Client:idle (Hydrate when idle) -->
+    <div class="card">
+      <div class="badge client">client:idle</div>
+      <h2>Idle Hydration</h2>
+      <p>Hydrates when the main thread is free (requestIdleCallback).</p>
+      <div class="demo-wrapper">
+        <SvelteCounter client:idle />
+      </div>
+    </div>
+
+    <!-- 4. Client:visible (Hydrate when visible) -->
+    <div class="card">
+      <div class="badge client">client:visible</div>
+      <h2>Visible Hydration</h2>
+      <p>Scroll down! Hydrates only when it enters the viewport.</p>
+      <div class="demo-wrapper">
+        <SolidCounter client:visible />
+      </div>
+    </div>
+
+    <!-- 5. Client:media (Hydrate on query) -->
+    <div class="card">
+      <div class="badge client">client:media</div>
+      <h2>Media Query</h2>
+      <p>Hydrates only on larger screens (min-width: 1000px).</p>
+      <div class="demo-wrapper">
+        <ReactCounter client:media="(min-width: 1000px)" />
+      </div>
+    </div>
+
+    <!-- 6. Client:only (Client Only) -->
+    <div class="card">
+      <div class="badge client">client:only</div>
+      <h2>Client Only</h2>
+      <p
+        >Skips SSR entirely. Useful for libraries accessing window/localStorage.</p
+      >
+      <div class="demo-wrapper">
+        <SvelteCounter client:only="svelte" />
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <h3>💡 Framework Agnostic</h3>
     <p
-      >💡 Open Network Tab: React only loads because of the second component.</p
+      >Notice how we are mixing React, Vue, Svelte, and SolidJS on the same
+      page? That's the power of Astro Islands.</p
     >
-  </section>
+    <p
+      >Check the Network tab to see different bundles loading at different
+      times!</p
+    >
+  </div>
 </RootLayout>
 
 <style>
-  section {
+  .subtitle {
+    text-align: center;
+    color: var(--color-text);
     margin-bottom: 3rem;
   }
-  .info {
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .card {
+    background: var(--color-card);
+    border-radius: 12px;
     padding: 1.5rem;
-    background: rgba(56, 189, 248, 0.1);
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .badge.server {
+    background: #333;
+    color: #fff;
+  }
+  .badge.client {
+    background: var(--accent);
+    color: #000;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    color: var(--color-heading);
+    margin-bottom: 0.5rem;
+  }
+  p {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    color: #a1a1aa;
+  }
+
+  .demo-wrapper {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
     border-radius: 8px;
-    border: 1px dashed var(--accent);
+  }
+
+  .info-box {
+    background: rgba(65, 184, 131, 0.1);
+    border: 1px dashed #41b883;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .info-box h3 {
+    color: #41b883;
   }
 </style>

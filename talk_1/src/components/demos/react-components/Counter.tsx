@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { useState } from 'react';
 
 export default function MissionControl() {
@@ -5,26 +6,46 @@ export default function MissionControl() {
 
   return (
     <div
+      className='react-card'
       style={{
-        padding: '2rem',
-        background: '#1f2937',
+        padding: '1.5rem',
+        background: '#1a1a1a',
         borderRadius: '8px',
-        border: '2px solid #38bdf8',
+        border: '2px solid #61dafb',
         textAlign: 'center',
       }}
     >
-      <h3 style={{ color: '#fff', margin: '0 0 1rem 0' }}>
-        React Mission Control
-      </h3>
-      <div style={{ fontSize: '3rem', fontWeight: 'bold', color: '#38bdf8' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.5rem',
+          marginBottom: '1rem',
+        }}
+      >
+        <img
+          src='https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg'
+          alt='React'
+          width='30'
+        />
+        <h3 style={{ margin: 0, color: '#61dafb' }}>React Island</h3>
+      </div>
+      <div
+        style={{
+          fontSize: '2.5rem',
+          fontWeight: 'bold',
+          color: '#fff',
+          margin: '1rem 0',
+        }}
+      >
         {count}
       </div>
       <div
         style={{
           display: 'flex',
-          gap: '1rem',
+          gap: '0.5rem',
           justifyContent: 'center',
-          marginTop: '1rem',
         }}
       >
         <button
@@ -32,29 +53,30 @@ export default function MissionControl() {
           onClick={() => setCount((c) => c - 1)}
           style={{
             padding: '0.5rem 1rem',
-            background: '#374151',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-          }}
-        >
-          - Thrust
-        </button>
-        <button
-          type='button'
-          onClick={() => setCount((c) => c + 1)}
-          style={{
-            padding: '0.5rem 1rem',
-            background: '#38bdf8',
-            color: '#0b0d17',
+            background: '#61dafb',
+            color: '#000',
             border: 'none',
             borderRadius: '4px',
             cursor: 'pointer',
             fontWeight: 'bold',
           }}
         >
-          + Thrust
+          -
+        </button>
+        <button
+          type='button'
+          onClick={() => setCount((c) => c + 1)}
+          style={{
+            padding: '0.5rem 1rem',
+            background: '#61dafb',
+            color: '#000',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+          }}
+        >
+          +
         </button>
       </div>
     </div>

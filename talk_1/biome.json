@@ -82,8 +82,7 @@
         "useJsxKeyInIterable": "error"
       },
       "performance": {
-        "noBarrelFile": "error",
-        "noImgElement": "error"
+        "noBarrelFile": "error"
       },
       "nursery": {
         "noDuplicateAttributes": "error",
@@ -247,6 +246,27 @@
   },
   "overrides": [
     {
+      "includes": [
+        "**/*.jsx",
+        "**/*.tsx",
+        "**/*.vue",
+        "**/*.svelte",
+        "**/*.astro"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": {
+              "level": "error",
+              "options": {
+                "filenameCases": ["PascalCase"]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "includes": ["**/*.astro"],
       "linter": {
         "rules": {
@@ -256,13 +276,7 @@
           },
           "style": {
             "useConst": "off",
-            "useImportType": "off",
-            "useFilenamingConvention": {
-              "level": "error",
-              "options": {
-                "filenameCases": ["PascalCase"]
-              }
-            }
+            "useImportType": "off"
           }
         }
       }

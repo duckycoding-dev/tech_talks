@@ -22,23 +22,36 @@ const serverTime = new Date().toISOString();
   </div>
 </RootLayout>
 
-<script>
+<script
+  is:inline
+  data-astro-rerun
+>
+  /* Read more on why these attributes are needed here: https://docs.astro.build/en/guides/view-transitions/#data-astro-rerun */
   console.log('Hello from the Client Side!');
 
-  const btn = document.getElementById('activate-btn');
-  const status = document.getElementById('status');
+  // and why this event listener is needed here: https://docs.astro.build/en/guides/view-transitions/#astropage-load
+  document.addEventListener('astro:page-load', () => {
+    // This runs on first page load and after every navigation.
+    setupStuff(); // e.g. add event listeners
+  });
 
-  if (btn && status) {
-    btn.addEventListener('click', () => {
-      status.textContent = 'Systems: ONLINE 🟢';
-      status.style.color = '#4ade80';
-      confetti();
-    });
-  }
+  function setupStuff() {
+    const btn = document.getElementById('activate-btn');
+    const status = document.getElementById('status');
 
-  function confetti() {
-    // Simulated visual effect
-    console.log('🎉');
+    if (btn && status) {
+      btn.addEventListener('click', () => {
+        console.log('Activating systems...');
+        status.textContent = 'Systems: ONLINE 🟢';
+        status.style.color = '#4ade80';
+        confetti();
+      });
+    }
+
+    function confetti() {
+      // Simulated visual effect
+      console.log('🎉');
+    }
   }
 </script>
 
@@ -48,6 +61,9 @@ const serverTime = new Date().toISOString();
     color: var(--color-heading);
   }
   .console {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: #111;
     border: 1px solid #333;
     padding: 2rem;
