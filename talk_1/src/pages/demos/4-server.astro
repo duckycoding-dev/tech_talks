@@ -1,0 +1,140 @@
+---
+export const prerender = false; // Required for Actions handling on this page if global output isn't server? Config says output: server so this is redundant but safe.
+
+import RootLayout from '@/layouts/RootLayout.astro';
+import MissionStatus from '@/components/demos/MissionStatus.astro';
+import { actions } from 'astro:actions';
+
+const result = Astro.getActionResult(actions.launch);
+---
+
+<RootLayout title="4. Server Power">
+  <h1>Server Power</h1>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Server Islands (Defer)</h2>
+      <p
+        >The page loads instantly. This component simulates a slow DB call (2s)
+        but doesn't block.</p
+      >
+
+      <div class="monitor">
+        <!-- server:defer makes this run on the server but streamed in later -->
+        <MissionStatus server:defer>
+          <div
+            slot="fallback"
+            class="loading"
+            >Scanning systems... 🔄</div
+          >
+        </MissionStatus>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Astro Actions</h2>
+      <p>Type-safe form submission without API routes.</p>
+
+      <form
+        action={actions.launch}
+        method="POST"
+        class="launch-form"
+      >
+        <label>
+          Launch Code (Hint: "1234"):
+          <input
+            type="text"
+            name="code"
+            required
+          />
+        </label>
+        <button type="submit">Initiate Launch</button>
+      </form>
+
+      {result && !result.error && (
+        <div class={result.data.success ? 'result success' : 'result error'}>
+          {result.data.message}
+        </div>
+      )}
+
+      {result && result.error && (
+        <div class="result error">
+          System Error
+        </div>
+      )}
+    </section>
+  </div>
+</RootLayout>
+
+<style>
+  .grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .card {
+    background: var(--color-card);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .monitor {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    border: 1px solid #333;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+  .loading {
+    color: var(--color-text);
+    animation: pulse 1s infinite;
+  }
+
+  .launch-form {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    max-width: 100%;
+    margin-top: 1rem;
+  }
+  input {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background: #222;
+    color: white;
+  }
+
+  .result {
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .success {
+    background: rgba(74, 222, 128, 0.2);
+    color: #4ade80;
+    border: 1px solid #4ade80;
+  }
+  .error {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid #ef4444;
+  }
+
+  @keyframes pulse {
+    0% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }
+</style>

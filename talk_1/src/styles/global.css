@@ -1,1 +1,84 @@
 @import './style-reset.css' layer(base);
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter/Inter-VariableFont_slnt,wght.ttf')
+    format('truetype-variations');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: oblique 0deg 10deg;
+}
+
+:root {
+  --space-black: #0b0d17;
+  --space-blue: #151932;
+  --starlight: #d0d6f9;
+  --white: #ffffff;
+  --accent: #38bdf8;
+
+  --color-bg: var(--space-black);
+  --color-card: var(--space-blue);
+  --color-text: var(--starlight);
+  --color-heading: var(--white);
+  --color-link: var(--accent);
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--color-heading);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 3rem;
+}
+h2 {
+  font-size: 2rem;
+  margin-top: 2rem;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Common utilities for demos */
+.demo-card {
+  background: var(--color-card);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 1rem;
+}
+
+button {
+  background: var(--color-link);
+  color: var(--space-black);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+button:hover {
+  opacity: 0.9;
+}

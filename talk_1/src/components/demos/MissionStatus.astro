@@ -1,0 +1,24 @@
+---
+// Simulated slow DB call
+await new Promise((resolve) => setTimeout(resolve, 2000));
+const status = Math.random() > 0.5 ? 'GO FOR LAUNCH' : 'HOLD HOLD HOLD';
+const color = status === 'GO FOR LAUNCH' ? '#4ade80' : '#ef4444';
+---
+
+<div class="status-box">
+  <h3>System Check Complete</h3>
+  <p style={`color: ${color}; font-size: 1.5rem; font-weight: bold;`}
+    >{status}</p
+  >
+</div>
+
+<style>
+  .status-box {
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #555;
+    border-radius: 8px;
+    text-align: center;
+    width: 100%;
+  }
+</style>

@@ -78,3 +78,15 @@ h6 {
     scroll-behavior: auto !important;
   }
 }
+
+button {
+  border-radius: 0;
+  text-align: inherit;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  color: inherit;
+  font: inherit;
+}

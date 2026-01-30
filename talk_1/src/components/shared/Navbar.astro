@@ -1,64 +1,280 @@
 ---
+import { Image } from 'astro:assets';
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/demos/1-basics', label: '1. Basics' },
+  { href: '/demos/2-routing', label: '2. Routing' },
+  { href: '/demos/3-islands', label: '3. Islands' },
+  { href: '/demos/4-server', label: '4. Server Power' },
+  { href: '/demos/5-content', label: '5. Content' },
+];
+
+const bottomLinks = [{ href: '/about', label: 'About me' }];
 ---
 
 <nav transition:persist>
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/about">About</a></li>
-  </ul>
+  <div class="nav-content">
+    <a
+      href="/"
+      class="brand"
+    >
+      <Image
+        src="/images/DuckyCoding_logo.png"
+        alt="Logo"
+        width="30"
+        height="30"
+      />
+      <span>Space Ducks</span>
+    </a>
+
+    <button
+      id="menu-toggle"
+      aria-label="Toggle Menu"
+      class="menu-toggle"
+      popovertarget="side-panel"
+    >
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+  </div>
+
+  <div
+    id="side-panel"
+    class="side-panel"
+    popover
+  >
+    <div class="panel-header">
+      <span class="panel-title">Navigation</span>
+      <button
+        id="close-menu"
+        aria-label="Close Menu"
+        class="close-btn"
+        popovertarget="side-panel"
+        popovertargetaction="hide"
+        >&times;</button
+      >
+    </div>
+    <ul class="nav-links">
+      {links.map(link => (
+        <li>
+          <a href={link.href}>{link.label}</a>
+        </li>
+      ))}
+      {bottomLinks.map((link, i) => (
+        <li class:list={['bottom-link', i === 0 ? 'first-bottom-link' : undefined]}>
+          <a href={link.href}>{link.label}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
 </nav>
+
+<script>
+  function setupMenu() {
+    const sidePanel = document.getElementById('side-panel');
+    const links = document.querySelectorAll('.nav-links a');
+
+    // Close menu when a link is clicked
+    for (const link of links) {
+      link.addEventListener('click', () => {
+        sidePanel?.hidePopover();
+      });
+    }
+  }
+
+  // Initial setup
+  setupMenu();
+</script>
 
 <style>
   nav {
     position: sticky;
     top: 0;
-    z-index: 100;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 1.5rem 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1rem 2rem;
+    transition: background-color 0.3s ease;
   }
 
-  nav ul {
-    list-style: none;
+  /* Add background when scrolled ? optional, let's keep it simple for now or use backdrop filter always */
+  nav {
+    background: rgba(11, 13, 23, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-content {
     display: flex;
-    gap: 2rem;
+    justify-content: space-between;
+    align-items: center;
     max-width: 1200px;
     margin: 0 auto;
   }
 
-  nav a {
-    color: inherit;
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-heading);
+    font-weight: bold;
+    font-size: 1.2rem;
     text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
   }
 
-  nav a::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.6);
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  .menu-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1001;
   }
 
-  nav a:hover {
-    background: rgba(255, 255, 255, 0.1);
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 30px;
   }
 
-  nav a:hover::before {
+  .hamburger span {
+    display: block;
     width: 100%;
+    height: 2px;
+    background-color: var(--color-heading);
+    border-radius: 2px;
+    transition: all 0.3s ease;
   }
 
-  /* Custom view transition animations */
+  /* Side Panel - Popover API */
+  .side-panel {
+    /* Reset UA styles for popover */
+    margin: 0;
+    left: auto;
+
+    /* Custom positioning */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 300px;
+    height: 100vh;
+    max-height: 100vh;
+
+    background: var(--color-card);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    border: none;
+    padding: 2rem;
+    flex-direction: column;
+
+    /* Animation defaults (closed state) */
+    transform: translateX(100%);
+    opacity: 0;
+    transition:
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.3s ease,
+      display 0.3s allow-discrete,
+      overlay 0.3s allow-discrete;
+  }
+
+  .side-panel:popover-open {
+    display: flex;
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  @starting-style {
+    .side-panel:popover-open {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+
+  /* Backdrop styling */
+  .side-panel::backdrop {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+    transition:
+      display 0.3s allow-discrete,
+      overlay 0.3s allow-discrete,
+      background-color 0.3s ease,
+      backdrop-filter 0.3s ease;
+  }
+
+  .side-panel:popover-open::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  @starting-style {
+    .side-panel:popover-open::backdrop {
+      background-color: rgba(0, 0, 0, 0);
+      backdrop-filter: blur(0px);
+    }
+  }
+
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+  }
+
+  .panel-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-heading);
+  }
+
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+  }
+
+  .nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+  }
+
+  .nav-links a {
+    display: block;
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition:
+      background 0.2s,
+      color 0.2s;
+  }
+
+  .nav-links a:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent);
+  }
+
+  .nav-links .first-bottom-link {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+  }
+
+  /* View Transitions */
   ::view-transition-old(root) {
     animation: slideOutDown 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
   }

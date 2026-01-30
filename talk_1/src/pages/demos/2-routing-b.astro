@@ -1,0 +1,46 @@
+---
+import RootLayout from '@/layouts/RootLayout.astro';
+---
+
+<RootLayout title="2. Routing - Deck B">
+  <h1>Navigation Demo</h1>
+
+  <div
+    class="station"
+    transition:name="station-card"
+    style="border-color: #f472b6;"
+  >
+    <h2>🔧 Engineering (B)</h2>
+    <p>Current Sector: Beta</p>
+
+    <div class="controls"> <a
+      href="/demos/2-routing"
+      class="btn-link"
+    >
+      ← Return to Command (Deck A)
+    </a> </div>
+  </div>
+</RootLayout>
+
+<style>
+  .station {
+    background: #1e1b4b; /* Different shade */
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid #f472b6;
+    margin-bottom: 2rem;
+  }
+  .btn-link {
+    display: inline-block;
+    background: #f472b6;
+    color: var(--space-black);
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+  .btn-link:hover {
+    text-decoration: none;
+    opacity: 0.9;
+  }
+</style>

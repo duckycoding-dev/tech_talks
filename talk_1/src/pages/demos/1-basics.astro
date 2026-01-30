@@ -1,0 +1,63 @@
+---
+import RootLayout from '@/layouts/RootLayout.astro';
+
+const title = 'System Check';
+const serverTime = new Date().toISOString();
+---
+
+<RootLayout title="1. Basics">
+  <h1>{title}</h1>
+  <p>Server Time (Static): {serverTime}</p>
+
+  <div class="console">
+    <p id="status">Systems: OFFLINE</p>
+    <button id="activate-btn">Activate Systems</button>
+  </div>
+
+  <div class="note">
+    <p
+      >ℹ️ Inspect the source: the Server Time is static HTML, the button logic is
+      Hydrated JS.</p
+    >
+  </div>
+</RootLayout>
+
+<script>
+  console.log('Hello from the Client Side!');
+
+  const btn = document.getElementById('activate-btn');
+  const status = document.getElementById('status');
+
+  if (btn && status) {
+    btn.addEventListener('click', () => {
+      status.textContent = 'Systems: ONLINE 🟢';
+      status.style.color = '#4ade80';
+      confetti();
+    });
+  }
+
+  function confetti() {
+    // Simulated visual effect
+    console.log('🎉');
+  }
+</script>
+
+<style>
+  /* Scoped CSS - won't leak */
+  h1 {
+    color: var(--color-heading);
+  }
+  .console {
+    background: #111;
+    border: 1px solid #333;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    font-family: 'Courier New', monospace;
+  }
+  .note {
+    background: rgba(56, 189, 248, 0.1);
+    padding: 1rem;
+    border-left: 4px solid var(--accent);
+  }
+</style>

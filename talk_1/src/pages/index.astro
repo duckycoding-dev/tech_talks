@@ -1,16 +1,101 @@
 ---
-import RootLayout from '../layouts/RootLayout.astro';
+import RootLayout from '@/layouts/RootLayout.astro';
 ---
 
-<RootLayout title="Home">
-  <div>
-    <h1>Welcome Home 👋</h1>
-    <p
-      >Experience smooth page transitions with Astro's native view transitions
-      API.</p
+<RootLayout title="Astro Tech Talk - Ducky Coding">
+  <div class="hero">
+    <img
+      src="/images/logo.png"
+      alt="Ducky Coding"
+      class="logo"
+      width="150"
+      height="150"
+    />
+    <h1>Astro: Zero JS by Default</h1>
+    <p>Modern Web Performance for Space Ducks</p>
+  </div>
+
+  <div class="grid">
+    <a
+      href="/demos/1-basics"
+      class="card"
     >
-    <p style="margin-top: 2rem; opacity: 0.85;"
-      >The navbar stays fixed while the content transitions smoothly.</p
+      <h2>1. The Basics</h2>
+      <p>Zero JS, Scoped CSS, Server vs Client.</p>
+    </a>
+
+    <a
+      href="/demos/2-routing"
+      class="card"
     >
+      <h2>2. Routing</h2>
+      <p>Prefetching & View Transitions.</p>
+    </a>
+
+    <a
+      href="/demos/3-islands"
+      class="card"
+    >
+      <h2>3. Islands</h2>
+      <p>Interactive React Components.</p>
+    </a>
+
+    <a
+      href="/demos/4-server"
+      class="card"
+    >
+      <h2>4. Server Power</h2>
+      <p>Server Islands & Actions.</p>
+    </a>
+
+    <a
+      href="/demos/5-content"
+      class="card"
+    >
+      <h2>5. Content</h2>
+      <p>Type-safe Collections.</p>
+    </a>
   </div>
 </RootLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .logo {
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    background: var(--color-card);
+    padding: 10px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  .card {
+    background: var(--color-card);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: block;
+    transition:
+      transform 0.2s,
+      border-color 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-link);
+    text-decoration: none;
+  }
+  .card h2 {
+    color: var(--color-heading);
+    font-size: 1.5rem;
+    margin-top: 0;
+  }
+  .card p {
+    color: var(--color-text);
+    margin: 0;
+  }
+</style>

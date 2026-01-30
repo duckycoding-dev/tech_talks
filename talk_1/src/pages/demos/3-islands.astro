@@ -1,0 +1,40 @@
+---
+import RootLayout from '@/layouts/RootLayout.astro';
+import MissionControl from '@/components/demos/react-components/Counter';
+---
+
+<RootLayout title="3. Islands">
+  <h1>Islands Architecture</h1>
+
+  <section>
+    <h2>1. Static (Server Only)</h2>
+    <p>This component is rendered as HTML. No JS sent. Buttons do nothing.</p>
+    <!-- By default, it's just HTML -->
+    <MissionControl />
+  </section>
+
+  <section>
+    <h2>2. Interactive (Hydrated)</h2>
+    <p>This one hydrates when visible. Try clicking.</p>
+    <!-- client:visible directive tells Astro to load JS -->
+    <MissionControl client:visible />
+  </section>
+
+  <section class="info">
+    <p
+      >💡 Open Network Tab: React only loads because of the second component.</p
+    >
+  </section>
+</RootLayout>
+
+<style>
+  section {
+    margin-bottom: 3rem;
+  }
+  .info {
+    padding: 1.5rem;
+    background: rgba(56, 189, 248, 0.1);
+    border-radius: 8px;
+    border: 1px dashed var(--accent);
+  }
+</style>
