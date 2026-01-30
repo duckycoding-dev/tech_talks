@@ -1,11 +1,13 @@
 ---
 import RootLayout from '@/layouts/RootLayout.astro';
+import { Image } from 'astro:assets';
+import duckycodingLogo from '/images/DuckyCoding_logo.png';
 ---
 
 <RootLayout title="Astro Tech Talk - Ducky Coding">
   <div class="hero">
-    <img
-      src="/images/logo.png"
+    <Image
+      src="/images/DuckyCoding_logo.png"
       alt="Ducky Coding"
       class="logo"
       width="150"
@@ -44,7 +46,7 @@ import RootLayout from '@/layouts/RootLayout.astro';
       href="/demos/4-server"
       class="card"
     >
-      <h2>4. Server Power</h2>
+      <h2>4. Server Islands</h2>
       <p>Server Islands & Actions.</p>
     </a>
 
@@ -54,6 +56,14 @@ import RootLayout from '@/layouts/RootLayout.astro';
     >
       <h2>5. Content</h2>
       <p>Type-safe Collections.</p>
+    </a>
+
+    <a
+      href="/demos/6-prefetch"
+      class="card"
+    >
+      <h2>6. Prefetching</h2>
+      <p>Hover, Tap, Load, Viewport.</p>
     </a>
   </div>
 </RootLayout>
