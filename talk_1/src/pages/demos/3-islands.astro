@@ -1,10 +1,10 @@
 ---
 import RootLayout from '@/layouts/RootLayout.astro';
-import ReactCounter from '@/components/demos/react-components/Counter';
-import VueCounter from '@/components/demos/vue-components/Counter.vue';
-import SvelteCounter from '@/components/demos/svelte-components/Counter.svelte';
-import SolidCounter from '@/components/demos/solid-components/Counter';
-import Counter from '../../components/demos/Counter.astro';
+import ReactCounter from '@/components/react-components/Counter';
+import VueCounter from '@/components/vue-components/Counter.vue';
+import SvelteCounter from '@/components/svelte-components/Counter.svelte';
+import SolidCounter from '@/components/solid-components/Counter';
+import Counter from '@/components/Counter.astro';
 ---
 
 <RootLayout title="3. Islands Architecture">
@@ -40,21 +40,14 @@ import Counter from '../../components/demos/Counter.astro';
       <h2>Idle Hydration</h2>
       <p>Hydrates when the main thread is free (requestIdleCallback).</p>
       <div class="demo-wrapper">
-        <SvelteCounter client:idle />
+        <SvelteCounter
+          client:idle
+          title="client:idle"
+        />
       </div>
     </div>
 
-    <!-- 4. Client:visible (Hydrate when visible) -->
-    <div class="card">
-      <div class="badge client">client:visible</div>
-      <h2>Visible Hydration</h2>
-      <p>Scroll down! Hydrates only when it enters the viewport.</p>
-      <div class="demo-wrapper">
-        <SolidCounter client:visible />
-      </div>
-    </div>
-
-    <!-- 5. Client:media (Hydrate on query) -->
+    <!-- 4. Client:media (Hydrate on query) -->
     <div class="card">
       <div class="badge client">client:media</div>
       <h2>Media Query</h2>
@@ -64,7 +57,7 @@ import Counter from '../../components/demos/Counter.astro';
       </div>
     </div>
 
-    <!-- 6. Client:only (Client Only) -->
+    <!-- 5. Client:only (Client Only) -->
     <div class="card">
       <div class="badge client">client:only</div>
       <h2>Client Only</h2>
@@ -72,7 +65,11 @@ import Counter from '../../components/demos/Counter.astro';
         >Skips SSR entirely. Useful for libraries accessing window/localStorage.</p
       >
       <div class="demo-wrapper">
-        <SvelteCounter client:only="svelte" />
+        <SvelteCounter
+          client:only="svelte"
+          title="client:only"
+          ><p slot="fallback">Fallback while loading ⏳⏳⏳</p></SvelteCounter
+        >
       </div>
     </div>
   </div>
@@ -88,9 +85,64 @@ import Counter from '../../components/demos/Counter.astro';
       times!</p
     >
   </div>
+
+  <div class="scroll-down-cta">
+    <p>⬇️ Scroll down for Viewport Prefetch ⬇️</p>
+    <div class="arrow">↓</div>
+  </div>
+  <div class="spacer"
+    ><p>🥱</p></div
+  >
+
+  <!-- 6. Client:visible (Hydrate when visible) -->
+  <div class="card">
+    <div class="badge client">client:visible</div>
+    <h2>Visible Hydration</h2>
+    <p>Scroll down! Hydrates only when it enters the viewport.</p>
+    <div class="demo-wrapper">
+      <SolidCounter client:visible />
+    </div>
+  </div>
 </RootLayout>
 
+<script is:inline>
+  // Simulate a heavy task blocking the main thread for 2 seconds
+  // This demonstrates how client:idle waits until the thread is free
+  const start = Date.now();
+  console.log('🔴 BLOCKING MAIN THREAD (2s)...');
+  while (Date.now() - start < 2000) {
+    // Busy wait
+  }
+  console.log('🟢 MAIN THREAD RELEASED');
+</script>
+
 <style>
+  .scroll-down-cta {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--color-text);
+  }
+
+  .spacer {
+    p {
+      font-size: 5rem;
+    }
+
+    height: 150vh; /* Make it really tall */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: #888;
+    border-left: 2px dashed rgba(255, 255, 255, 0.1);
+    margin: 0 auto;
+  }
+
+  .arrow {
+    font-size: 2rem;
+    animation: bounce 2s infinite;
+  }
   .subtitle {
     text-align: center;
     color: var(--color-text);

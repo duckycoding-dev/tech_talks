@@ -3,6 +3,11 @@ import { useState } from 'react';
 
 export default function MissionControl() {
   const [count, setCount] = useState(0);
+  if (typeof window === 'undefined') {
+    console.log(`${Date.now()} - React Counter rendered ⚛️🤖`);
+  } else {
+    console.log(`${Date.now()} - React Counter hydrated ⚛️💧`);
+  }
 
   return (
     <div

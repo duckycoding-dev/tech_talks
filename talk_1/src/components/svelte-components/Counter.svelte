@@ -1,6 +1,7 @@
 <script>
   let count = $state(0);
-
+  /** @type {{ title: string }} */
+  let { title } = $props();
   function increment() {
     count += 1;
   }
@@ -8,6 +9,14 @@
   function decrement() {
     count -= 1;
   }
+
+  if (typeof window === 'undefined') {
+    console.log(`${Date.now()} - Svelte Counter ${title} rendered ⚡🤖`);
+  }
+
+  $effect(() => {
+    console.log(`${Date.now()} - Svelte Counter ${title} hydrated ⚡💧`);
+  });
 </script>
 
 <div class="card svelte-card">

@@ -2,7 +2,7 @@
 export const prerender = false; // Required for Actions handling on this page if global output isn't server? Config says output: server so this is redundant but safe.
 
 import RootLayout from '@/layouts/RootLayout.astro';
-import MissionStatus from '@/components/demos/MissionStatus.astro';
+import MissionStatus from '@/components/MissionStatus.astro';
 import { actions } from 'astro:actions';
 
 const result = Astro.getActionResult(actions.launch);

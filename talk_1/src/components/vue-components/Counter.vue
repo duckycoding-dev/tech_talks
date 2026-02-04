@@ -1,6 +1,10 @@
 <script setup>
   import { ref } from 'vue';
-
+  if (typeof window === 'undefined')
+    console.log(`${Date.now()} - Vue Counter rendered 🌿🤖`);
+  else {
+    console.log(`${Date.now()} - Vue Counter hydrated 🌿💧`);
+  }
   const count = ref(0);
 </script>
 

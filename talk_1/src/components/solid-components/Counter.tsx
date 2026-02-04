@@ -3,6 +3,11 @@ import { createSignal } from 'solid-js';
 
 export default function Counter() {
   const [count, setCount] = createSignal(0);
+  if (typeof window === 'undefined') {
+    console.log(`${Date.now()} - Solid Counter rendered 🔵🤖`);
+  } else {
+    console.log(`${Date.now()} - Solid Counter hydrated 🔵💧`);
+  }
 
   return (
     <div
