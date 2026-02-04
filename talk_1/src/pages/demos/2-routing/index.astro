@@ -1,0 +1,108 @@
+---
+import RootLayout from '@/layouts/RootLayout.astro';
+import { planets } from '@/data/planets';
+import VideoPlayer from '@/components/demos/VideoPlayer.astro';
+---
+
+<RootLayout title="2. View Transitions">
+  <div class="breadcrumb"> <a href="/">← Back to homepage</a> </div>
+
+  <div class="header-container">
+    <h1>Planetary Archives</h1>
+    <p class="subtitle">Exploring Astro's ClientRouter</p>
+  </div>
+
+  <VideoPlayer
+    src="/videos/falcon_9_takeoff.mp4"
+    playerTitle="Live Feed: Launch Cam"
+  />
+
+  <div class="grid">
+    {planets.map((planet) => (
+        <a href={`/demos/2-routing/planet/${planet.slug}`} class="card">
+          <div
+            class="planet-visual"
+            style={{ background: planet.gradient }}
+            transition:name={`planet-visual-${planet.slug}`}
+          >
+            <span class="planet-emoji">{planet.emoji}</span>
+          </div>
+          <div class="content">
+            <h2 transition:name={`planet-name-${planet.slug}`}>{planet.name}</h2>
+            <p transition:name={`planet-description-${planet.slug}`}>{planet.description}</p>
+          </div>
+        </a>
+      ))}
+  </div>
+</RootLayout>
+
+<style>
+  .header-container {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .subtitle {
+    color: var(--color-text);
+    opacity: 0.8;
+  }
+
+  /* Grid Layout */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+  }
+
+  .card {
+    background: #1f2937;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s;
+    border: 1px solid #374151;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: #38bdf8;
+  }
+
+  .planet-visual {
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+  }
+
+  .content {
+    padding: 1.5rem;
+  }
+
+  h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: #fff;
+  }
+
+  p {
+    margin: 0;
+    color: #9ca3af;
+    line-height: 1.5;
+  }
+
+  @keyframes pulse {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+</style>

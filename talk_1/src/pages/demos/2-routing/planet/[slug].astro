@@ -1,0 +1,166 @@
+---
+import RootLayout from '@/layouts/RootLayout.astro';
+import { planets } from '@/data/planets';
+import VideoPlayer from '@/components/demos/VideoPlayer.astro';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return planets.map((p) => ({
+    params: { slug: p.slug },
+    props: { planet: p },
+  }));
+}
+
+const { planet } = Astro.props;
+---
+
+<RootLayout title={planet.name}>
+  <div class="breadcrumb">
+    <a href="/demos/2-routing">← Back to Archives</a>
+  </div>
+
+  <div class="header-container">
+    <h1 transition:name={`planet-name-${planet.slug}`}>{planet.name}</h1>
+    <p
+      transition:name={`planet-description-${planet.slug}`}
+      class="subtitle description"
+      >{planet.description}</p
+    >
+  </div>
+
+  <VideoPlayer
+    src="/videos/falcon_9_takeoff.mp4"
+    playerTitle="Live Feed: Launch Cam"
+  />
+
+  <div class="planet-detail">
+    <div
+      class="hero-visual"
+      style={{ background: planet.gradient }}
+      transition:name={`planet-visual-${planet.slug}`}
+    >
+      <span class="planet-emoji">{planet.emoji}</span>
+    </div>
+
+    <div class="info-panel">
+      <div
+        class="stats-grid"
+        transition:animate="slide"
+      >
+        <div class="stat">
+          <span class="label">Temperature</span>
+          <span class="value">{planet.stats.temp}</span>
+        </div>
+        <div class="stat">
+          <span class="label">Gravity</span>
+          <span class="value">{planet.stats.gravity}</span>
+        </div>
+        <div class="stat">
+          <span class="label">Type</span>
+          <span class="value">{planet.stats.type}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</RootLayout>
+
+<style>
+  .header-container {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .subtitle {
+    color: var(--color-text);
+    opacity: 0.8;
+  }
+
+  .planet-detail {
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 800px;
+  }
+
+  @media (min-width: 768px) {
+    .planet-detail {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .hero-visual {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8rem;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  }
+
+  .info-panel {
+    display: flex;
+    align-self: stretch;
+    flex-grow: 1;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    background: #1f2937;
+    padding: 1rem;
+    border-radius: 8px;
+    width: 100%;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+
+    .stat:not(:last-of-type) {
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      padding-right: 1rem;
+
+      @media (min-width: 768px) {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    @media (min-width: 768px) {
+      gap: 2rem;
+      justify-content: space-between;
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .label {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #38bdf8;
+  }
+
+  .description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #d1d5db;
+  }
+</style>
