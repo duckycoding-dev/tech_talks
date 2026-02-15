@@ -5,11 +5,6 @@ import ShipCarousel from '@/components/demos/content/ShipCarousel.astro';
 import ShipCarouselModern from '@/components/demos/content/ShipCarouselModern.astro';
 import FilterBar from '@/components/demos/content/FilterBar.astro';
 
-// Toggle between carousel implementations:
-// - ShipCarousel: 3D ring with perspective transforms + tiny JS
-// - ShipCarouselModern: scroll-snap + CSS ::scroll-button/::scroll-marker (zero JS)
-const useModernCarousel = true;
-
 const classFilter = Astro.url.searchParams.get('class');
 const statusFilter = Astro.url.searchParams.get('status');
 
@@ -47,7 +42,7 @@ ships.sort(
   />
 
   {ships.length > 0 ? (
-    useModernCarousel ? <ShipCarouselModern ships={ships} /> : <ShipCarousel ships={ships} />
+    <ShipCarouselModern ships={ships} />
   ) : (
     <div class="empty-state">
       <p>No ships match the current filters.</p>

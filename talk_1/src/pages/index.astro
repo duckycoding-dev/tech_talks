@@ -1,6 +1,9 @@
 ---
 import RootLayout from '@/layouts/RootLayout.astro';
 import { Image } from 'astro:assets';
+
+console.log('Rendering Home Page');
+export const prerender = true;
 ---
 
 <RootLayout title="Astro Tech Talk - Ducky Coding">
