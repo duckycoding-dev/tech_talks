@@ -271,6 +271,9 @@
       "linter": {
         "rules": {
           "correctness": {
+            "noUnknownPseudoElement": "off",
+            "noUnknownPseudoClass": "off",
+            "noUnknownProperty": "off",
             "noUnusedVariables": "off",
             "noUnusedImports": "off"
           },

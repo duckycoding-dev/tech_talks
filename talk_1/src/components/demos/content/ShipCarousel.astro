@@ -10,204 +10,71 @@ const { ships } = Astro.props;
 
 const n = ships.length;
 const angleStep = 360 / n;
-// Radius scales with item count so cards don't overlap
-// Formula: ensure arc gap between cards > card width
-const radius = Math.max(350, Math.round((n * 240) / (2 * Math.PI) + 40));
+// Radius: enough arc spacing between cards so they don't overlap
+// For small counts use a minimum, for large counts scale with count
+const cardWidth = 200;
+const radius = Math.max(280, Math.round((n * cardWidth) / (2 * Math.PI) + 30));
 ---
 
-<div class="carousel-wrapper">
-  <button
-    class="nav-btn prev"
-    data-carousel-prev
-    aria-label="Previous ship"
-    >‹</button
-  >
-
-  <div class="carousel-scene">
-    <div
-      class="carousel-ring"
-      data-carousel-ring
-      data-count={n}
-      data-angle-step={angleStep}
-      style={`--rotation: 0deg; --radius: ${radius}px`}
+<div class="carousel-container">
+  <div class="carousel-wrapper">
+    <button
+      class="nav-btn prev"
+      data-carousel-prev
+      aria-label="Previous ship"
+      >‹</button
     >
-      {ships.map((ship, i) => {
-        const angle = angleStep * i;
-        return (
-          <div
-            class="carousel-item"
-            style={`transform: rotateY(${angle}deg) translateZ(var(--radius))`}
-          >
-            <ShipCard
-              ship={ship}
-              isActive={i === 0}
-            />
-          </div>
-        );
-      })}
+
+    <div class="carousel-scene">
+      <div
+        class="carousel-ring"
+        data-carousel-ring
+        data-count={n}
+        data-angle-step={angleStep}
+        style={`--rotation: 0deg; --radius: ${radius}px`}
+      >
+        {ships.map((ship, i) => {
+          const angle = angleStep * i;
+          return (
+            <div
+              class="carousel-item"
+              style={`transform: rotateY(${angle}deg) translateZ(var(--radius))`}
+            >
+              <ShipCard
+                ship={ship}
+                isActive={i === 0}
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
+
+    <button
+      class="nav-btn next"
+      data-carousel-next
+      aria-label="Next ship"
+      >›</button
+    >
   </div>
 
-  <button
-    class="nav-btn next"
-    data-carousel-next
-    aria-label="Next ship"
-    >›</button
+  <div
+    class="carousel-indicator"
+    data-carousel-dots
   >
-</div>
-
-<div
-  class="carousel-indicator"
-  data-carousel-dots
->
-  {ships.map((_, i) => (
-    <button
-      class:list={['dot', { active: i === 0 }]}
-      data-dot-index={i}
-      aria-label={`Go to ship ${i + 1}`}
-    ></button>
-  ))}
+    {ships.map((_, i) => (
+      <button
+        class:list={['dot', { active: i === 0 }]}
+        data-dot-index={i}
+        aria-label={`Go to ship ${i + 1}`}
+      ></button>
+    ))}
+  </div>
 </div>
 
 <script
   is:inline
   data-astro-rerun
->
-  document.addEventListener('astro:page-load', () => {
-    const ring = document.querySelector('[data-carousel-ring]');
-    if (!ring) {
-      return;
-    }
+></script>
 
-    const count = Number(ring.dataset.count);
-    const step = Number(ring.dataset.angleStep);
-    let current = 0;
-
-    function goTo(index) {
-      current = ((index % count) + count) % count;
-      ring.style.setProperty('--rotation', `${-(step * current)}deg`);
-
-      // Update active states
-      const items = ring.querySelectorAll('.carousel-item');
-      const dots = document.querySelectorAll('[data-dot-index]');
-      items.forEach((item, i) => {
-        const card = item.querySelector('.ship-card');
-        if (card) {
-          card.classList.toggle('active', i === current);
-        }
-      });
-      for (let [i, dot] of Array.from(dots).entries()) {
-        dot.classList.toggle('active', i === current);
-      }
-    }
-
-    document
-      .querySelector('[data-carousel-prev]')
-      ?.addEventListener('click', () => goTo(current - 1));
-    document
-      .querySelector('[data-carousel-next]')
-      ?.addEventListener('click', () => goTo(current + 1));
-    for (let dot of document.querySelectorAll('[data-dot-index]')) {
-      dot.addEventListener('click', () => goTo(Number(dot.dataset.dotIndex)));
-    }
-  });
-</script>
-
-<style>
-  .carousel-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .nav-btn {
-    flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: var(--color-card);
-    color: var(--color-heading);
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition:
-      border-color 0.2s,
-      background 0.2s;
-    z-index: 2;
-  }
-
-  .nav-btn:hover {
-    border-color: var(--accent);
-    background: rgba(56, 189, 248, 0.1);
-  }
-
-  .carousel-scene {
-    flex: 1;
-    perspective: 1200px;
-    height: 380px;
-    position: relative;
-  }
-
-  .carousel-ring {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    transform-style: preserve-3d;
-    transform: rotateY(var(--rotation));
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .carousel-item {
-    position: absolute;
-    width: 250px;
-    left: 50%;
-    top: 50%;
-    margin-left: -125px;
-    margin-top: -150px;
-    height: 300px;
-    backface-visibility: hidden;
-  }
-
-  .carousel-indicator {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 0.5rem;
-  }
-
-  .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s;
-    padding: 0;
-  }
-
-  .dot:hover {
-    background: rgba(56, 189, 248, 0.5);
-  }
-
-  .dot.active {
-    background: var(--accent);
-  }
-
-  @media (max-width: 640px) {
-    .carousel-scene {
-      height: 320px;
-    }
-
-    .carousel-item {
-      width: 210px;
-      margin-left: -105px;
-      height: 270px;
-    }
-  }
-</style>
+<style></style>
