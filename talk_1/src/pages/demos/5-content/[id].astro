@@ -1,0 +1,30 @@
+---
+import RootLayout from '@/layouts/RootLayout.astro';
+import { getEntry, render } from 'astro:content';
+import ShipDetail from '@/components/demos/content/ShipDetail.astro';
+
+const { id } = Astro.params;
+
+if (!id) {
+  return Astro.redirect('/demos/5-content');
+}
+
+const ship = await getEntry('ships', id);
+
+if (!ship) {
+  return Astro.redirect('/demos/5-content');
+}
+
+const { Content } = await render(ship);
+---
+
+<RootLayout title={ship.data.name}>
+  <div class="breadcrumb">
+    <a href="/demos/5-content">← Back to Ship Registry</a>
+  </div>
+
+  <ShipDetail
+    ship={ship}
+    Content={Content}
+  />
+</RootLayout>

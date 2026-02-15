@@ -1,0 +1,146 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  ship: CollectionEntry<'ships'>;
+  isActive?: boolean;
+}
+
+const { ship, isActive = false } = Astro.props;
+
+const statusColors: Record<string, string> = {
+  Active: '#4ade80',
+  Decommissioned: '#6b7280',
+  Missing: '#f87171',
+  'Under Construction': '#fbbf24',
+};
+
+const statusColor = statusColors[ship.data.status] || '#6b7280';
+---
+
+<a
+  href={`/demos/5-content/${ship.id}`}
+  class:list={['ship-card', { active: isActive }]}
+  transition:name={`ship-card-${ship.id}`}
+>
+  <div class="card-header">
+    <span
+      class="status-dot"
+      style={`background: ${statusColor}`}
+    ></span>
+    <span
+      class="status-text"
+      style={`color: ${statusColor}`}
+      >{ship.data.status}</span
+    >
+  </div>
+
+  <h3 class="ship-name">{ship.data.name}</h3>
+
+  <div class="card-details">
+    <div class="detail">
+      <span class="label">Class</span>
+      <span class="value">{ship.data.class}</span>
+    </div>
+    <div class="detail">
+      <span class="label">Crew</span>
+      <span class="value">{ship.data.crew}</span>
+    </div>
+    <div class="detail">
+      <span class="label">Captain</span>
+      <span class="value">{ship.data.captain}</span>
+    </div>
+  </div>
+
+  <span class="view-link">View Details →</span>
+</a>
+
+<style>
+  .ship-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-decoration: none;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .ship-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+    text-decoration: none;
+  }
+
+  .ship-card.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status-text {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .ship-name {
+    color: var(--color-heading);
+    font-size: 1.15rem;
+    margin: 0 0 0.75rem;
+    line-height: 1.2;
+  }
+
+  .card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex-grow: 1;
+  }
+
+  .detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+  }
+
+  .label {
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 0.7rem;
+  }
+
+  .value {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .view-link {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,195 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+
+interface Props {
+  ship: CollectionEntry<'ships'>;
+  Content: AstroComponentFactory;
+}
+
+const { ship, Content } = Astro.props;
+const { data } = ship;
+
+const statusColors: Record<string, string> = {
+  Active: '#4ade80',
+  Decommissioned: '#6b7280',
+  Missing: '#f87171',
+  'Under Construction': '#fbbf24',
+};
+
+const statusColor = statusColors[data.status] || '#6b7280';
+---
+
+<article
+  class="ship-detail"
+  transition:name={`ship-card-${ship.id}`}
+>
+  <header class="detail-header">
+    <div class="title-row">
+      <h1>{data.name}</h1>
+      <span
+        class="status-badge"
+        style={`background: ${statusColor}20; color: ${statusColor}; border-color: ${statusColor}`}
+        >{data.status}</span
+      >
+    </div>
+    <p class="ship-class">{data.class} Class</p>
+  </header>
+
+  <div class="stats-grid">
+    <div class="stat">
+      <span class="label">Captain</span>
+      <span class="value">{data.captain}</span>
+    </div>
+    <div class="stat">
+      <span class="label">Crew</span>
+      <span class="value">{data.crew}</span>
+    </div>
+    <div class="stat">
+      <span class="label">Top Speed</span>
+      <span class="value">{data.topSpeed}</span>
+    </div>
+    <div class="stat">
+      <span class="label">Commissioned</span>
+      <span class="value"
+        >{data.commissioned.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span
+      >
+    </div>
+    {data.homePort && (
+      <div class="stat">
+        <span class="label">Home Port</span>
+        <span class="value">{data.homePort}</span>
+      </div>
+    )}
+  </div>
+
+  {data.armament.length > 0 && (
+    <div class="armament-section">
+      <h2>Armament</h2>
+      <div class="armament-list">
+        {data.armament.map((weapon) => (
+          <span class="weapon-tag">{weapon}</span>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <div class="lore-section">
+    <h2>Ship's Log</h2>
+    <div class="prose">
+      <Content />
+    </div>
+  </div>
+</article>
+
+<style>
+  .ship-detail {
+    max-width: 700px;
+    margin-inline: auto;
+  }
+
+  .detail-header {
+    margin-bottom: 2rem;
+  }
+
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .title-row h1 {
+    margin: 0;
+  }
+
+  .status-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+
+  .ship-class {
+    color: var(--accent);
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    background: var(--color-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .label {
+    font-size: 0.7rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-heading);
+  }
+
+  .armament-section {
+    margin-bottom: 2rem;
+  }
+
+  .armament-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .weapon-tag {
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--accent);
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .lore-section {
+    background: var(--color-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .prose {
+    color: var(--color-text);
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+</style>
+
+<style is:global>
+  .prose p {
+    margin-bottom: 1rem;
+  }
+
+  .prose p:last-child {
+    margin-bottom: 0;
+  }
+</style>

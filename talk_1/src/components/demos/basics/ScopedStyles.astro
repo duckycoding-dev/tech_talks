@@ -1,0 +1,38 @@
+---
+import CyanText from './CyanText.astro';
+import GreenText from './GreenText.astro';
+---
+
+<div class="demo-box">
+  <CyanText />
+  <GreenText />
+</div>
+
+<p class="hint"
+  >Both components define <code>.text</code> with different colors, but Astro
+  scopes each with a unique <code>data-astro-cid-*</code> attribute. Inspect the
+  DOM to see it!</p
+>
+
+<style>
+  .demo-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .hint {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #8b949e;
+    font-style: italic;
+  }
+
+  .hint code {
+    background: rgba(56, 189, 248, 0.1);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    color: var(--accent);
+    font-style: normal;
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+// This component uses the class ".text" — styled cyan
+---
+
+<div class="panel">
+  <h4>Component A</h4>
+  <p class="text">I'm styled <strong>cyan</strong></p>
+</div>
+
+<style>
+  .panel {
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+  }
+
+  .panel h4 {
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8b949e;
+  }
+
+  .text {
+    color: var(--accent);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+</style>

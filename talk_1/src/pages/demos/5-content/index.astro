@@ -1,0 +1,112 @@
+---
+import RootLayout from '@/layouts/RootLayout.astro';
+import { getCollection } from 'astro:content';
+import ShipCarousel from '@/components/demos/content/ShipCarousel.astro';
+import FilterBar from '@/components/demos/content/FilterBar.astro';
+
+const classFilter = Astro.url.searchParams.get('class');
+const statusFilter = Astro.url.searchParams.get('status');
+const selectedParam = Astro.url.searchParams.get('selected');
+
+let ships = await getCollection('ships');
+
+// Extract unique values before filtering (for filter bar display)
+const allClasses = [...new Set(ships.map((s) => s.data.class))].sort();
+const allStatuses = [...new Set(ships.map((s) => s.data.status))].sort();
+
+// Apply filters
+if (classFilter) {
+  ships = ships.filter((s) => s.data.class === classFilter);
+}
+if (statusFilter) {
+  ships = ships.filter((s) => s.data.status === statusFilter);
+}
+
+// Sort by commissioned date (newest first)
+ships.sort(
+  (a, b) => b.data.commissioned.valueOf() - a.data.commissioned.valueOf(),
+);
+
+// Selected index (clamped to valid range)
+const selectedIndex = Math.min(
+  Math.max(0, Number.parseInt(selectedParam || '0', 10) || 0),
+  Math.max(0, ships.length - 1),
+);
+---
+
+<RootLayout title="5. Ship Registry">
+  <div class="breadcrumb"> <a href="/">← Back to Mission Control</a> </div>
+
+  <h1>Ship Registry</h1>
+  <p class="subtitle">Content Collections with type-safe Zod schemas</p>
+
+  <FilterBar
+    currentClass={classFilter}
+    currentStatus={statusFilter}
+    availableClasses={allClasses}
+    availableStatuses={allStatuses}
+  />
+
+  {ships.length > 0 ? (
+    <ShipCarousel
+      ships={ships}
+      selectedIndex={selectedIndex}
+    />
+  ) : (
+    <div class="empty-state">
+      <p>No ships match the current filters.</p>
+      <a href="/demos/5-content">Clear filters</a>
+    </div>
+  )}
+
+  <div class="tip">
+    <p>
+      <strong>Try this:</strong> Edit a ship's frontmatter in
+      <code>src/content/ships/</code> and change <code>crew</code> to a string
+      like <code>"many"</code>. The build will fail with a Zod validation error!
+    </p>
+  </div>
+</RootLayout>
+
+<style>
+  .subtitle {
+    color: var(--color-text);
+    opacity: 0.8;
+    margin-bottom: 2rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    background: var(--color-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--color-text);
+  }
+
+  .empty-state a {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--accent);
+  }
+
+  .tip {
+    margin-top: 3rem;
+    border-top: 1px solid #333;
+    padding-top: 1rem;
+    color: #888;
+    font-style: italic;
+  }
+
+  .tip code {
+    background: rgba(56, 189, 248, 0.1);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .tip strong {
+    color: var(--color-text);
+  }
+</style>

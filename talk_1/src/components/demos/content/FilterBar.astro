@@ -1,0 +1,109 @@
+---
+interface Props {
+  currentClass: string | null;
+  currentStatus: string | null;
+  availableClasses: string[];
+  availableStatuses: string[];
+}
+
+const { currentClass, currentStatus, availableClasses, availableStatuses } =
+  Astro.props;
+
+function buildUrl(params: Record<string, string | null>): string {
+  const url = new URL(Astro.url);
+  // Reset selected index when filters change
+  url.searchParams.delete('selected');
+  for (const [key, value] of Object.entries(params)) {
+    if (value) {
+      url.searchParams.set(key, value);
+    } else {
+      url.searchParams.delete(key);
+    }
+  }
+  return url.pathname + url.search;
+}
+---
+
+<div class="filter-bar">
+  <div class="filter-group">
+    <span class="filter-label">Class:</span>
+    <a
+      href={buildUrl({ class: null })}
+      class:list={['pill', { active: !currentClass }]}
+      >All</a
+    >
+    {availableClasses.map((cls) => (
+      <a
+        href={buildUrl({ class: cls })}
+        class:list={['pill', { active: currentClass === cls }]}
+      >{cls}</a>
+    ))}
+  </div>
+
+  <div class="filter-group">
+    <span class="filter-label">Status:</span>
+    <a
+      href={buildUrl({ status: null })}
+      class:list={['pill', { active: !currentStatus }]}
+      >All</a
+    >
+    {availableStatuses.map((status) => (
+      <a
+        href={buildUrl({ status })}
+        class:list={['pill', { active: currentStatus === status }]}
+      >{status}</a>
+    ))}
+  </div>
+</div>
+
+<style>
+  .filter-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .filter-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 0.25rem;
+  }
+
+  .pill {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: transparent;
+    color: var(--color-text);
+    text-decoration: none;
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      color 0.2s;
+  }
+
+  .pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .pill.active {
+    background: var(--accent);
+    color: var(--space-black);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+</style>

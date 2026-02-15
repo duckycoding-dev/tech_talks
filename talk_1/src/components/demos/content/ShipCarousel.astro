@@ -1,0 +1,173 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ShipCard from './ShipCard.astro';
+
+interface Props {
+  ships: CollectionEntry<'ships'>[];
+  selectedIndex: number;
+}
+
+const { ships, selectedIndex } = Astro.props;
+
+const n = ships.length;
+const angleStep = 360 / n;
+const radius = Math.max(300, n * 60);
+const rotation = -(angleStep * selectedIndex);
+
+// Build navigation URLs preserving current filters
+function navUrl(index: number): string {
+  const url = new URL(Astro.url);
+  const wrapped = ((index % n) + n) % n;
+  url.searchParams.set('selected', String(wrapped));
+  return url.pathname + url.search;
+}
+
+const prevIndex = selectedIndex - 1;
+const nextIndex = selectedIndex + 1;
+---
+
+<div class="carousel-wrapper">
+  <a
+    href={navUrl(prevIndex)}
+    class="nav-btn prev"
+    aria-label="Previous ship"
+    >‹</a
+  >
+
+  <div
+    class="carousel-scene"
+    style={`--rotation: ${rotation}deg; --radius: ${radius}px`}
+  >
+    <div class="carousel-ring">
+      {ships.map((ship, i) => {
+        const angle = angleStep * i;
+        const isActive = i === selectedIndex;
+        return (
+          <div
+            class="carousel-item"
+            style={`transform: rotateY(${angle}deg) translateZ(var(--radius))`}
+          >
+            <ShipCard
+              ship={ship}
+              isActive={isActive}
+            />
+          </div>
+        );
+      })}
+    </div>
+  </div>
+
+  <a
+    href={navUrl(nextIndex)}
+    class="nav-btn next"
+    aria-label="Next ship"
+    >›</a
+  >
+</div>
+
+<div class="carousel-indicator">
+  {ships.map((_, i) => (
+    <a
+      href={navUrl(i)}
+      class:list={['dot', { active: i === selectedIndex }]}
+      aria-label={`Go to ship ${i + 1}`}
+    ></a>
+  ))}
+</div>
+
+<style>
+  .carousel-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .nav-btn {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--color-card);
+    color: var(--color-heading);
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition:
+      border-color 0.2s,
+      background 0.2s;
+    z-index: 2;
+  }
+
+  .nav-btn:hover {
+    border-color: var(--accent);
+    background: rgba(56, 189, 248, 0.1);
+    text-decoration: none;
+  }
+
+  .carousel-scene {
+    flex: 1;
+    perspective: 1000px;
+    height: 320px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .carousel-ring {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transform: rotateY(var(--rotation));
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .carousel-item {
+    position: absolute;
+    width: 260px;
+    left: 50%;
+    top: 50%;
+    margin-left: -130px;
+    margin-top: -140px;
+    height: 280px;
+    backface-visibility: hidden;
+  }
+
+  .carousel-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    transition: background 0.2s;
+  }
+
+  .dot:hover {
+    background: rgba(56, 189, 248, 0.5);
+  }
+
+  .dot.active {
+    background: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .carousel-scene {
+      height: 280px;
+    }
+
+    .carousel-item {
+      width: 220px;
+      margin-left: -110px;
+      height: 260px;
+    }
+  }
+</style>

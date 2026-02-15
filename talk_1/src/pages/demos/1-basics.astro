@@ -1,79 +1,59 @@
 ---
 import RootLayout from '@/layouts/RootLayout.astro';
-
-const title = 'System Check';
-const serverTime = new Date().toISOString();
+import ServerRendered from '@/components/demos/basics/ServerRendered.astro';
+import ScopedStyles from '@/components/demos/basics/ScopedStyles.astro';
+import ClientInteraction from '@/components/demos/basics/ClientInteraction.astro';
 ---
 
-<RootLayout title="1. Basics">
-  <h1>{title}</h1>
-  <p>Server Time (Static): {serverTime}</p>
+<RootLayout title="1. The Basics">
+  <div class="breadcrumb"> <a href="/">← Back to Mission Control</a> </div>
 
-  <div class="console">
-    <p id="status">Systems: OFFLINE</p>
-    <button id="activate-btn">Activate Systems</button>
-  </div>
+  <h1>The Basics</h1>
+  <p class="subtitle">Three core concepts that make Astro different</p>
 
-  <div class="note">
-    <p
-      >ℹ️ Inspect the source: the Server Time is static HTML, the button logic is
-      Hydrated JS.</p
-    >
-  </div>
+  <section class="demo-section">
+    <span class="badge">1. HTML-First Output</span>
+    <ServerRendered />
+  </section>
+
+  <section class="demo-section">
+    <span class="badge">2. Scoped CSS</span>
+    <ScopedStyles />
+  </section>
+
+  <section class="demo-section">
+    <span class="badge">3. Opt-in Client JS</span>
+    <ClientInteraction />
+  </section>
 </RootLayout>
 
-<script
-  is:inline
-  data-astro-rerun
->
-  /* Read more on why these attributes are needed here: https://docs.astro.build/en/guides/view-transitions/#data-astro-rerun */
-  console.log('Hello from the Client Side!');
-
-  // and why this event listener is needed here: https://docs.astro.build/en/guides/view-transitions/#astropage-load
-  document.addEventListener('astro:page-load', () => {
-    // This runs on first page load and after every navigation.
-    setupStuff(); // e.g. add event listeners
-  });
-
-  function setupStuff() {
-    const btn = document.getElementById('activate-btn');
-    const status = document.getElementById('status');
-
-    if (btn && status) {
-      btn.addEventListener('click', () => {
-        console.log('Activating systems...');
-        status.textContent = 'Systems: ONLINE 🟢';
-        status.style.color = '#4ade80';
-        confetti();
-      });
-    }
-
-    function confetti() {
-      // Simulated visual effect
-      console.log('🎉');
-    }
-  }
-</script>
-
 <style>
-  /* Scoped CSS - won't leak */
-  h1 {
-    color: var(--color-heading);
+  .subtitle {
+    color: var(--color-text);
+    opacity: 0.8;
+    margin-bottom: 2rem;
   }
-  .console {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #111;
-    border: 1px solid #333;
-    padding: 2rem;
-    border-radius: 8px;
-    margin: 2rem 0;
-    font-family: 'Courier New', monospace;
+
+  .demo-section {
+    position: relative;
+    background: var(--color-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem 1.5rem 1.5rem;
+    margin-bottom: 1.5rem;
   }
-  .note {
-    background: rgba(56, 189, 248, 0.1);
-    padding: 1rem;
-    border-left: 4px solid var(--accent);
+
+  .badge {
+    position: absolute;
+    top: -0.75rem;
+    left: 1rem;
+    background: var(--accent);
+    color: var(--space-black);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
   }
 </style>

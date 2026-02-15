@@ -1,14 +1,24 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const logs = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/logs' }),
+const ships = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/ships' }),
   schema: z.object({
-    title: z.string(),
-    date: z.date(),
-    tags: z.array(z.string()),
-    officer: z.string().default('Anonymous'),
+    name: z.string(),
+    class: z.enum(['Explorer', 'Warship', 'Freighter', 'Science', 'Colony']),
+    status: z.enum([
+      'Active',
+      'Decommissioned',
+      'Missing',
+      'Under Construction',
+    ]),
+    crew: z.number().int().positive(),
+    commissioned: z.coerce.date(),
+    topSpeed: z.string(),
+    armament: z.array(z.string()).default([]),
+    homePort: z.string().optional(),
+    captain: z.string().default('Unassigned'),
   }),
 });
 
-export const collections = { logs };
+export const collections = { ships };

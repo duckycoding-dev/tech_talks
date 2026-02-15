@@ -1,0 +1,99 @@
+---
+// This component opts into client-side JavaScript
+---
+
+<div class="console">
+  <p id="status">Systems: <span class="offline">OFFLINE</span></p>
+  <button id="activate-btn">Activate Systems</button>
+</div>
+
+<p class="hint"
+  >This is the <strong>only</strong> section with a <code>&lt;script&gt;</code>
+  tag. Astro ships zero JS unless you explicitly add it.</p
+>
+
+<script
+  is:inline
+  data-astro-rerun
+>
+  document.addEventListener('astro:page-load', () => {
+    const btn = document.getElementById('activate-btn');
+    const status = document.getElementById('status');
+
+    if (btn && status) {
+      btn.addEventListener('click', () => {
+        status.innerHTML = 'Systems: <span class="online">ONLINE</span>';
+        btn.textContent = 'Systems Active';
+        btn.disabled = true;
+      });
+    }
+  });
+</script>
+
+<style>
+  .console {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+  }
+
+  #status {
+    font-size: 1.1rem;
+    color: #c9d1d9;
+    margin: 0;
+  }
+
+  .offline {
+    color: #f85149;
+    font-weight: bold;
+  }
+
+  .online {
+    color: #4ade80;
+    font-weight: bold;
+  }
+
+  button {
+    background: var(--accent);
+    color: var(--space-black);
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  button:hover {
+    opacity: 0.9;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .hint {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #8b949e;
+    font-style: italic;
+  }
+
+  .hint code {
+    background: rgba(56, 189, 248, 0.1);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .hint strong {
+    color: #c9d1d9;
+  }
+</style>
