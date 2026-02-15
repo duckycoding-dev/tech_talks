@@ -18,10 +18,23 @@ const statusColors: Record<string, string> = {
 const statusColor = statusColors[ship.data.status] || '#6b7280';
 ---
 
-<a
+<!-- 
+  View Transition Strategy:
+  We ONLY apply viewTransitionName when the card is clicked.
+  
+  Why?
+  1. Performance: Avoids creating hundreds of layers for off-screen items.
+  2. Overflow: Transitions lift elements to the top layer, breaking `overflow: hidden`
+     on the carousel. By applying it late, we ensure non-active items stay clipped.
+  3. Animation: Prevents conflicts with scroll-driven animations on non-active items.
+
+  Cons:
+  1. We lose the ability to animate from the page to the card (e.g. when navigating from a ship detail to a ship list page)
+--><a
   href={`/demos/5-content/${ship.id}`}
   class:list={['ship-card', { active: isActive }]}
-  transition:name={`ship-card-${ship.id}`}
+  data-ship-id={ship.id}
+  onclick="this.style.viewTransitionName = `ship-card-${this.dataset.shipId}`;"
 >
   <div class="card-header">
     <span
