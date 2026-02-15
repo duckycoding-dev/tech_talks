@@ -6,7 +6,6 @@ import FilterBar from '@/components/demos/content/FilterBar.astro';
 
 const classFilter = Astro.url.searchParams.get('class');
 const statusFilter = Astro.url.searchParams.get('status');
-const selectedParam = Astro.url.searchParams.get('selected');
 
 let ships = await getCollection('ships');
 
@@ -26,12 +25,6 @@ if (statusFilter) {
 ships.sort(
   (a, b) => b.data.commissioned.valueOf() - a.data.commissioned.valueOf(),
 );
-
-// Selected index (clamped to valid range)
-const selectedIndex = Math.min(
-  Math.max(0, Number.parseInt(selectedParam || '0', 10) || 0),
-  Math.max(0, ships.length - 1),
-);
 ---
 
 <RootLayout title="5. Ship Registry">
@@ -48,10 +41,7 @@ const selectedIndex = Math.min(
   />
 
   {ships.length > 0 ? (
-    <ShipCarousel
-      ships={ships}
-      selectedIndex={selectedIndex}
-    />
+    <ShipCarousel ships={ships} />
   ) : (
     <div class="empty-state">
       <p>No ships match the current filters.</p>
