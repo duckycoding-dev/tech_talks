@@ -1,0 +1,5 @@
+echo "running husky pre-commit hook"
+
+cd 2026_02_26 # navigate to the project folder, needed since the git root is one level up from this project folder
+echo cwd: $(pwd)
+lint-staged

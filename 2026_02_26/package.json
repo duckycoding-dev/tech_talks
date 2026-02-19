@@ -1,5 +1,5 @@
 {
-  "name": "talk_1",
+  "name": "2026_02_26",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -10,7 +10,7 @@
     "format": "biome format . --write",
     "lint": "biome lint",
     "lint:fix": "biome lint . --write",
-    "prepare": "cd .. && husky ./talk_1/.husky"
+    "prepare": "cd .. && husky ./2026_02_26/.husky"
   },
   "dependencies": {
     "@astrojs/node": "9.5.2",

@@ -1,5 +1,0 @@
-echo "running husky pre-commit hook"
-
-cd talk_1 # navigate to the project folder, needed since the git root is one level up from this project folder
-echo cwd: $(pwd)
-lint-staged
