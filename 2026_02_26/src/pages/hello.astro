@@ -1,0 +1,34 @@
+---
+// server side code and imports go here
+import '@/styles/global.css';
+import RootLayout from '../layouts/RootLayout.astro';
+import ExampleComponent from '../components/example-component.astro';
+
+console.log('this only runs on the server');
+const greetings = 'Hello MUG!';
+---
+
+<RootLayout title="Astro Tech Talk - Ducky Coding">
+  <section>
+    <!-- comment embedded in html -->
+    <h1>{greetings}</h1>
+    <ExampleComponent titleColor="yellow">
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro, quis!
+      </p>
+    </ExampleComponent>
+  </section>
+</RootLayout>
+
+<script>
+  // client side code goes here
+  console.log('this only runs on the client');
+</script>
+
+<style>
+  /* Automatically scoped CSS thanks to "data-astro-cid-" generated classnames */
+
+  h1 {
+    color: fuchsia;
+  }
+</style>

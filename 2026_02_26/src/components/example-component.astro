@@ -1,0 +1,25 @@
+---
+// example-component.astro
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'div'> {
+  // define your props here
+  titleColor: string;
+}
+const { titleColor } = Astro.props; // automatically typed as Props
+
+// automatically exported as default export
+---
+
+<div>
+  <h2 class="title">This is an example component</h2>
+  <slot /><!-- this is where the children passed to the component will be rendered -->
+</div>
+
+<style define:vars={{titleColor}}>
+  .title {
+    /* Automatically scoped */
+    color: var(--titleColor);
+  }
+  /* ... */
+</style>
