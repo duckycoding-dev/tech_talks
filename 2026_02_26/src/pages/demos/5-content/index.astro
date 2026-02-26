@@ -1,7 +1,6 @@
 ---
 import RootLayout from '@/layouts/RootLayout.astro';
 import { getCollection } from 'astro:content';
-import ShipCarousel from '@/components/demos/content/ShipCarousel.astro';
 import ShipCarouselModern from '@/components/demos/content/ShipCarouselModern.astro';
 import FilterBar from '@/components/demos/content/FilterBar.astro';
 
@@ -9,6 +8,7 @@ const classFilter = Astro.url.searchParams.get('class');
 const statusFilter = Astro.url.searchParams.get('status');
 
 let ships = await getCollection('ships');
+console.log('Ship 1:', JSON.stringify(ships[0], null, 2));
 
 // Extract unique values before filtering (for filter bar display)
 const allClasses = [...new Set(ships.map((s) => s.data.class))].sort();
