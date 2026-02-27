@@ -1,6 +1,6 @@
 # MUG Talk about Astro
 
-
+## Things done for this repo
 - [setting up biome](https://astro-tips.dev/tips/biome/)
 - [setting up husky](https://typicode.github.io/husky/get-started.html) for running scripts during git commit
   - `npm install --save-dev husky`
@@ -19,3 +19,10 @@
 - Cleaned tsconfig.json: Removed the global "jsxImportSource": "solid-js" that was added when installing the solid-js package: setting that was forcing React files to use Solid's JSX runtime.
 
 - Added File Pragmas: Explicitly added /** @jsxImportSource ... */ to the top of React and Solid components to ensure they use the correct compiler.
+
+## How to run the demo
+- install deps first: `npm i`
+- run in dev mode: `npm run dev`
+- otherwise, in production mode:
+  - `npm run build`
+  - `npm run preview`
